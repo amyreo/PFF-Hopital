@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -16,7 +17,7 @@ import javax.persistence.Table;
 @Table
 
 public class Medecin {
-
+	@Id
 	private int idMede;
 	private String nom;
 	private String prenom;
