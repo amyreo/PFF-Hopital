@@ -18,6 +18,7 @@ public class Medicament {
 	private int idMedi;
 	private String nom;
 	private String description;
+	private int stock;
 
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "T_Ordo_Medi_Associations", joinColumns = @JoinColumn(name = "idMedi"), inverseJoinColumns = @JoinColumn(name = "idOrdo"))
@@ -27,19 +28,21 @@ public class Medicament {
 		super();
 	}
 
-	public Medicament(int idMedi, String nom, String description) {
+	public Medicament(int idMedi, String nom, String description, int stock) {
 		super();
 		this.idMedi = idMedi;
 		this.nom = nom;
 		this.description = description;
+		this.stock = stock;
 	}
 
-	public Medicament(int idMedi, String nom, String description, List<Ordonance> ordonances) {
+	public Medicament(int idMedi, String nom, String description, int stock, List<Ordonance> ordonances) {
 		super();
 		this.idMedi = idMedi;
 		this.nom = nom;
 		this.description = description;
 		this.ordonances = ordonances;
+		this.stock = stock;
 	}
 
 	public int getIdMedi() {
@@ -52,6 +55,14 @@ public class Medicament {
 
 	public String getNom() {
 		return nom;
+	}
+
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
 	}
 
 	public void setNom(String nom) {
