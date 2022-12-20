@@ -14,7 +14,7 @@ public class Ordonance {
 	@JoinTable( name = "T_Ordo_Medi_Associations",
             joinColumns = @JoinColumn( name = "idOrdo" ),
             inverseJoinColumns = @JoinColumn( name = "idMedi" ) )
-	  private List<Ordonance> roles = new ArrayList<>();
+	  private List<Medicament> medicaments = new ArrayList<>();
 	
 	   @ManyToMany  @JoinColumn( name="idMede" )
 	    private Medecin medecin;
