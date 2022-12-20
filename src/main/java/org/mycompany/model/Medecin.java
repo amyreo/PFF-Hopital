@@ -1,4 +1,4 @@
-package org.mycompany.modele;
+package org.mycompany.model;
 
 
 public class Medecin {
