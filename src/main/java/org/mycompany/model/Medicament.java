@@ -3,6 +3,7 @@ package org.mycompany.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -17,7 +18,7 @@ public class Medicament {
 	private String nom;
 	private String description;
 
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "T_Ordo_Medi_Associations", joinColumns = @JoinColumn(name = "idMedi"), inverseJoinColumns = @JoinColumn(name = "idOrdo"))
 	private List<Ordonance> ordonances = new ArrayList<>();
 

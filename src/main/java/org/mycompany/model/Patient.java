@@ -27,11 +27,11 @@ public class Patient {
 	@JoinColumn(name = "idPatient")
 	private List<RDV> listeRDV = new ArrayList<>();
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "idChambre")
 	private Chambre chambre;
 
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "T_Patient_Medecin_Associations", joinColumns = @JoinColumn(name = "idMedecin"), inverseJoinColumns = @JoinColumn(name = "idPatient"))
 	private List<Medecin> listeMedecins;
 

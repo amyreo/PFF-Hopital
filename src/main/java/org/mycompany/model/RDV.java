@@ -28,7 +28,7 @@ public class RDV {
 	@JoinColumn(name = "idMedecin")
 	private Medecin medecin;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "idPatient")
 	private Patient patient;
 

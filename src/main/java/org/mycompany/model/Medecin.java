@@ -22,10 +22,10 @@ public class Medecin {
 	private String prenom;
 	private String role;
 
-	@OneToMany(targetEntity = Ordonance.class, mappedBy = "Medecin")
+	@OneToMany(targetEntity = Ordonance.class, mappedBy = "Medecin", cascade = CascadeType.ALL)
 	private List<Ordonance> ordonances = new ArrayList<>();
 
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "T_Patient_Medecin_Associations", joinColumns = @JoinColumn(name = "idPatient"), inverseJoinColumns = @JoinColumn(name = "idMedecin"))
 	private List<Patient> listePatients;
 
