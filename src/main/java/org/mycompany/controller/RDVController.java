@@ -3,7 +3,6 @@ package org.mycompany.controller;
 import java.util.List;
 
 import org.mycompany.model.RDV;
-import org.mycompany.model.RDV;
 import org.mycompany.repo.IRDVRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
