@@ -16,7 +16,9 @@ public class RDV {
 
 	@Id
 	private int id;
+	private String maladie;
 	private String heureDebut;
+	private boolean chirurgie;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "idFacture")
@@ -34,19 +36,23 @@ public class RDV {
 		super();
 	}
 
-	public RDV(int id, String heureDebut) {
+	public RDV(int id, String heureDebut, String maladie, boolean chirurgie) {
 		super();
 		this.id = id;
+		this.maladie = maladie;
 		this.heureDebut = heureDebut;
+		this.chirurgie = chirurgie;
 	}
 
-	public RDV(int id, String heureDebut, Facture facture, Medecin medecin, Patient patient) {
+	public RDV(int id, String heureDebut, String maladie, Facture facture, Medecin medecin, Patient patient, boolean chirurgie) {
 		super();
 		this.id = id;
 		this.heureDebut = heureDebut;
 		this.facture = facture;
 		this.medecin = medecin;
 		this.patient = patient;
+		this.maladie = maladie;
+		this.chirurgie = chirurgie;
 	}
 
 	public int getId() {
@@ -88,6 +94,30 @@ public class RDV {
 	public void setPatient(Patient patient) {
 		this.patient = patient;
 	}
+
+	public String getMaladie() {
+		return maladie;
+	}
+
+	public void setMaladie(String maladie) {
+		this.maladie = maladie;
+	}
+
+	public boolean isChirurgie() {
+		return chirurgie;
+	}
+
+	public void setChirurgie(boolean chirurgie) {
+		this.chirurgie = chirurgie;
+	}
+
+	@Override
+	public String toString() {
+		return "RDV [id=" + id + ", maladie=" + maladie + ", heureDebut=" + heureDebut + ", chirurgie=" + chirurgie
+				+ ", facture=" + facture + ", medecin=" + medecin + ", patient=" + patient + "]";
+	}
+	
+	
 	
 	
 
