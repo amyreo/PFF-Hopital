@@ -88,12 +88,6 @@ public class RDV {
 	public void setPatient(Patient patient) {
 		this.patient = patient;
 	}
-
-	@Override
-	public String toString() {
-		return "RDV [id=" + id + ", heureDebut=" + heureDebut + ", facture=" + facture + ", medecin=" + medecin
-				+ ", patient=" + patient + "]";
-	}
 	
 	
 

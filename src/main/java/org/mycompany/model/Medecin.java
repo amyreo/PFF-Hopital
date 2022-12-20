@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 @Entity
 @Table
 
@@ -15,9 +16,8 @@ public class Medecin {
 	private String nom;
 	private String prenom;
 	private String role;
-	
-	@OneToMany( targetEntity=Ordonance.class, mappedBy="Medecin" )
-    private List<Ordonance> ordonances = new ArrayList<>();
-	
-	
+
+	@OneToMany(targetEntity = Ordonance.class, mappedBy = "Medecin")
+	private List<Ordonance> ordonances = new ArrayList<>();
+
 }

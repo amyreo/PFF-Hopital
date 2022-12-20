@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -30,11 +31,20 @@ public class Patient {
 	@JoinColumn(name = "idChambre")
 	private Chambre chambre;
 
+	@ManyToMany
+	@JoinTable(name = "T_Patient_Medecin_Associations", joinColumns = @JoinColumn(name = "idMedecin"), inverseJoinColumns = @JoinColumn(name = "idPatient"))
+	private List<Medecin> listeMedecins;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "idPatient")
+	private List<Ordonance> listeOrdonances = new ArrayList<>();
+
 	public Patient() {
 		super();
 	}
 
-	public Patient(int id, String nom, String prenom, int age, List<RDV> listeRDV, Chambre chambre) {
+	public Patient(int id, String nom, String prenom, int age, List<RDV> listeRDV, Chambre chambre,
+			List<Medecin> listeMedecins, List<Ordonance> listeOrdonances) {
 		super();
 		this.id = id;
 		this.nom = nom;
@@ -42,6 +52,8 @@ public class Patient {
 		this.age = age;
 		this.listeRDV = listeRDV;
 		this.chambre = chambre;
+		this.listeMedecins = listeMedecins;
+		this.listeOrdonances = listeOrdonances;
 	}
 
 	public Patient(int id, String nom, String prenom, int age) {
@@ -100,10 +112,27 @@ public class Patient {
 		this.chambre = chambre;
 	}
 
+	public List<Medecin> getListeMedecins() {
+		return listeMedecins;
+	}
+
+	public void setListeMedecins(List<Medecin> listeMedecins) {
+		this.listeMedecins = listeMedecins;
+	}
+
+	public List<Ordonance> getListeOrdonances() {
+		return listeOrdonances;
+	}
+
+	public void setListeOrdonances(List<Ordonance> listeOrdonances) {
+		this.listeOrdonances = listeOrdonances;
+	}
+
 	@Override
 	public String toString() {
 		return "Patient [id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", age=" + age + ", listeRDV=" + listeRDV
-				+ ", chambre=" + chambre + "]";
+				+ ", chambre=" + chambre + ", listeMedecins=" + listeMedecins + ", listeOrdonances=" + listeOrdonances
+				+ "]";
 	}
 
 }
