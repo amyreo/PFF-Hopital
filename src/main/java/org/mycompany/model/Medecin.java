@@ -13,9 +13,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+
 @Entity
 @Table
-
+@Component
 public class Medecin {
 	@Id
 	private int idMede;
@@ -23,9 +25,12 @@ public class Medecin {
 	private String prenom;
 	private String role;
 
-	@OneToMany(targetEntity = Ordonance.class, mappedBy = "Medecin", cascade = CascadeType.ALL)
-	private List<Ordonance> ordonances = new ArrayList<>();
 
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "idMede")
+	private List<Ordonance> ordonances;
+	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "T_Patient_Medecin_Associations", joinColumns = @JoinColumn(name = "idPatient"), inverseJoinColumns = @JoinColumn(name = "idMedecin"))
 	private List<Patient> listePatients;

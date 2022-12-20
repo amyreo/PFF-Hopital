@@ -49,7 +49,6 @@ public class OrdonanceController {
 		public Ordonance updateOrdonance(@RequestBody Ordonance ordonance, @PathVariable int id) {
 			return iOrdonanceRepository.findById(id).map(Ordonance -> {
 				Ordonance.setIdOrdo(ordonance.getIdOrdo());
-				Ordonance.setMedecin(ordonance.getMedecin());
 				Ordonance.setMedicaments(ordonance.getMedicaments());
 				return iOrdonanceRepository.save(Ordonance);
 			}).orElseGet(() -> {

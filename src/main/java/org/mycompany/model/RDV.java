@@ -9,9 +9,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.mycompany.model.Patient;
+import org.springframework.stereotype.Component;
 
 @Entity
 @Table
+@Component
 public class RDV {
 
 	@Id

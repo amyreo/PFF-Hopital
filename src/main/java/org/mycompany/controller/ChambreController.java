@@ -18,7 +18,7 @@ public class ChambreController {
 
 	@Autowired
 	IChambreRepository icr;
-
+ 
 	@GetMapping("/getChambre/{id}")
 	public Chambre getChambre(@PathVariable int id) {
 		return icr.findById(id).get();

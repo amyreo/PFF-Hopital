@@ -11,8 +11,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+
 @Entity
 @Table
+@Component
 public class Medicament {
 	@Id
 	private int idMedi;

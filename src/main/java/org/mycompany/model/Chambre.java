@@ -9,8 +9,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Table
+import org.springframework.stereotype.Component;
+
 @Entity
+@Table
+@Component
 public class Chambre {
 
 	@Id

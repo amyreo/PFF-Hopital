@@ -4,11 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+@Entity
+@Table
+@Component
 public class Ordonance {
 	@Id
 	private int idOrdo;
@@ -19,10 +25,6 @@ public class Ordonance {
             inverseJoinColumns = @JoinColumn( name = "idMedi" ) )
 	  private List<Medicament> medicaments = new ArrayList<>();
 	
-
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "idMede")
-	private Medecin medecin;
 
 	public Ordonance() {
 		super();
@@ -37,7 +39,6 @@ public class Ordonance {
 		super();
 		this.idOrdo = idOrdo;
 		this.medicaments = medicaments;
-		this.medecin = medecin;
 	}
 
 	public int getIdOrdo() {
@@ -56,17 +57,10 @@ public class Ordonance {
 		this.medicaments = medicaments;
 	}
 
-	public Medecin getMedecin() {
-		return medecin;
-	}
-
-	public void setMedecin(Medecin medecin) {
-		this.medecin = medecin;
-	}
 
 	@Override
 	public String toString() {
-		return "Ordonance [idOrdo=" + idOrdo + ", medicaments=" + medicaments + ", medecin=" + medecin + "]";
+		return "Ordonance [idOrdo=" + idOrdo + ", medicaments=" + medicaments + "]";
 	}
 
 }
