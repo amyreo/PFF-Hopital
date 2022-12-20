@@ -4,11 +4,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Table
 @Entity
-public class Chambre {
+@Table
+public class RDV {
 	
 	@Id
 	private int id;
+	private String heureDebut;
 	
+
 }

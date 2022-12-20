@@ -2,13 +2,15 @@ package org.mycompany.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-@Table
 @Entity
-public class Chambre {
-	
+@Table
+public class Facture {
 	@Id
 	private int id;
+	private double montant;
 	
+
 }
