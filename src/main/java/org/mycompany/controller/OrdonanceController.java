@@ -1,4 +1,4 @@
-package org.mycompany.controler;
+package org.mycompany.controller;
 
 
 
