@@ -2,6 +2,7 @@ package org.mycompany.controller;
 
 import java.util.List;
 
+import org.apache.camel.ProducerTemplate;
 import org.mycompany.model.Patient;
 import org.mycompany.model.Patient;
 import org.mycompany.repo.IPatientRepository;
@@ -14,9 +15,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
 public class PatientController {
-
+	@Autowired
+	ProducerTemplate producerTemplate;
+	
 	@Autowired
 	IPatientRepository ipr;
 
@@ -57,5 +61,11 @@ public class PatientController {
 			return ipr.save(newPatient);
 		});
 	}
-
+	
+	@GetMapping("/clientQuestion")
+	public String  getlistClients()
+	{
+		return producerTemplate.requestBody("direct:patient", null,String.class);
+		}
+	
 }
