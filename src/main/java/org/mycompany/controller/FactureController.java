@@ -95,6 +95,9 @@ public class FactureController {
 		String finalOutput = JsonUtils.toPrettyJsonString(output);
 		System.out.println(finalOutput);
 		return finalOutput;
+		
+// à envoyer dans une queue activeMQ
+// rajouter un rdv dans la base ? Une fois qu'on aura fait un choice pour ajouter tout ce qu'on veut
 
 	}
 }

@@ -1,1 +1,6 @@
-{"facture":{"id":5,"montant":123.45}}
+{
+	"facture": {
+		"id": 5,
+		"montant": 123.45
+	}
+}
