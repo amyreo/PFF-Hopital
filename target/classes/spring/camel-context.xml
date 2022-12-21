@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring       https://camel.apache.org/schema/spring/camel-spring-2.23.3.xsd">
+    <bean class="org.mycompany.Processor.ProcessorScanPatient.java" id="ProcessorScanPatient"/>
+    <bean
+        class="org.mycompany.Processor.ProcessorScanPatientNouveaumessage.java" id="choixnouveauxmessage"/>
     <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
-        <route id="_route1">
+        <route id="_patientEnvoie">
             <from id="_from1" uri="direct:patient"/>
             <process id="_process1" ref="ProcessorScanPatient"/>
-            <log id="_log1"/>
-            <to id="_to4" uri="activemq:queue:JT_PAtient"/>
-            <process id="ProcessorScanPatientNouveauxMesage" ref="/PFF-Hopital-Sender/src/main/java/org/mycompany/Processor/ProcessorScanPatient.java"/>
+            <log id="_log1" message="la question est  {body}"/>
+            <to id="_to4" uri="activemq:queue:JT_Patient"/>
+            
+        </route>
+        <route id="_cote_medecin">
+            <from id="_to3" uri="activemq:queue:JT_Patient"/>
+            <process id="_process2"/>
+            <log id="_log2"/>
+            <to id="_to5" uri="activemq:queue:JT_ReponseMedecin"/>
+        </route>
+        <route id="_retourCotePatient">
+            <from id="_to4" uri="activemq:queue:JT_ReponseMedecin"/>
+            <log id="_log5" message="la reponse est  {body}"/>
+            <process id="ProcessorScanPatientNouveauxMesage" ref="choixnouveauxmessage"/>
             <choice id="_choice2">
                 <when id="new message ?">
-                    <constant>body().contains("o")</constant>
+                    <constant>body.equalsIgnoreCase("o")</constant>
                     <to id="_to1" uri="direct:patient"/>
                 </when>
                 <otherwise id="_otherwise2">
