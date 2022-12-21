@@ -59,9 +59,6 @@ pipeline {
         
         success {
             echo "Les tests ont bien été validé, on peut déployer en production"  
-		mail to: "theo.lorenzi@laposte.net",
-				subject: "On a bien validé les tests : ${currentBuild.fullDisplayName}",
-				body: "Pas d'erreur dans le build : ${env.BUILD_URL}"
         }
 
     }
