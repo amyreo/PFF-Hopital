@@ -1,3 +1,16 @@
+Notes pour utilisation des modules : 
+
+- Swagger (visualisation des diverses méthodes dans le package org.mycompany.controller) : 
+    - Démarrer le projet
+    - Aller à http://localhost:8080/swagger-ui.html
+    - Profit
+- Jenkins (Pipeline sur chaque push Github et validation des changements) : 
+    - Démarrer Ngrok en local avec la commande dispo dans le shell spécial Ngrok
+    - Remplacer si besoin le token webhook dans le projet Github
+    - Démarrer le service Jenkins et aller à localhost:8081 (ou :8090 ou autre selon la config)
+    - Profit
+
+
 # Spring Boot Camel XML QuickStart
 
 This example demonstrates how to configure Camel routes in Spring Boot via
