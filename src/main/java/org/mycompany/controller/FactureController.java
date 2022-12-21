@@ -1,8 +1,12 @@
 package org.mycompany.controller;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.List;
 
-import org.mycompany.model.Facture;
+import org.apache.camel.json.simple.JsonObject;
+import org.mycompany.Test;
+
 import org.mycompany.model.Facture;
 import org.mycompany.repo.IFactureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.bazaarvoice.jolt.JsonUtils;
+import com.bazaarvoice.jolt.Chainr;
 
 @RestController
 public class FactureController {
@@ -51,5 +58,43 @@ public class FactureController {
 		}).orElseGet(() -> {
 			return ifr.save(newFacture);
 		});
+	}
+
+	@GetMapping("/factureToJSON/{id}/{filename}")
+	public void factureToJSON(@PathVariable int id, @PathVariable String filename) {
+		Facture fac = ifr.findById(id).get();
+
+		JsonObject factureJSON = new JsonObject();
+		factureJSON.put("id", fac.getId());
+		factureJSON.put("montant", fac.getMontant());
+
+		JsonObject factureObject = new JsonObject();
+		factureObject.put("facture", factureJSON);
+
+		try (FileWriter file = new FileWriter(filename)) {
+			String output = factureObject.toJson().toString();
+			file.write(output);
+			file.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@GetMapping("/JSONSpecToString/{id}/{filename}")
+	public String JSONSpecToString(@PathVariable int id, @PathVariable String filename) {
+		File file = new File(filename);
+		file.delete();
+		System.out.println("On a supprimé l'object précédent " + filename);
+		factureToJSON(id, filename);
+		System.out.println("On a créé l'object input.json");
+
+		Object input = JsonUtils.filepathToObject(filename);
+		List<Object> chainrSpecJSON = JsonUtils.filepathToList("spec.json");
+		Chainr chainr = Chainr.fromSpec(chainrSpecJSON);
+		Object output = chainr.transform(input);
+		String finalOutput = JsonUtils.toPrettyJsonString(output);
+		System.out.println(finalOutput);
+		return finalOutput;
+
 	}
 }
