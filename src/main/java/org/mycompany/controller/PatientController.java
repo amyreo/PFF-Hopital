@@ -63,9 +63,10 @@ public class PatientController {
 	}
 	
 	@GetMapping("/clientQuestion")
-	public String  getlistClients()
+	public void  getlistClients()
 	{
-		return producerTemplate.requestBody("direct:patient", null,String.class);
+		 
+	 producerTemplate.requestBody("direct:patient", null,String.class);
 		}
 	
 }

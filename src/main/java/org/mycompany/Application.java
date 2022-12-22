@@ -15,9 +15,18 @@
  */
 package org.mycompany;
 
+import javax.jms.ConnectionFactory;
+import javax.jms.JMSException;
+
+import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.camel.CamelContext;
+import org.apache.camel.component.jms.JmsComponent;
+import org.apache.camel.impl.DefaultCamelContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ImportResource;
+
+
 
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -30,10 +39,15 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @ImportResource({"classpath:spring/camel-context.xml"})
 public class Application {
-
+	private static String url = "tcp://194.206.91.85:61616";
     // must have a main method spring-boot can run
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         SpringApplication.run(Application.class, args);
+        CamelContext context = new DefaultCamelContext();
+        ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
+		connectionFactory.createConnection("admin", "adaming2022");
+		context.addComponent("jms", JmsComponent.jmsComponentAutoAcknowledge(connectionFactory));
+		
     }
 
 }
