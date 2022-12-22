@@ -15,7 +15,7 @@ public class ProcessorScanPatientNouveauMessage implements Processor {
 		System.out.println("voulez cous posez une autre question ? o pour oui autre pour non");
 		String message = scan.nextLine();
 		exchange.getIn().setBody(message);
-
+		
 	}
 
 }
