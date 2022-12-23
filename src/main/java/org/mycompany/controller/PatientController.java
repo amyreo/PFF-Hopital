@@ -2,10 +2,16 @@ package org.mycompany.controller;
 
 import java.util.List;
 
+import javax.jms.ConnectionFactory;
+
+import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
-import org.mycompany.model.Patient;
+import org.apache.camel.component.jms.JmsComponent;
+import org.apache.camel.impl.DefaultCamelContext;
 import org.mycompany.model.Patient;
 import org.mycompany.repo.IPatientRepository;
+import org.mycompany.route.PatientRouter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,12 +21,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 public class PatientController {
+
+	private static String url = "tcp://194.206.91.85:61616";
+
 	@Autowired
 	ProducerTemplate producerTemplate;
-	
+
 	@Autowired
 	IPatientRepository ipr;
 
@@ -62,10 +70,20 @@ public class PatientController {
 		});
 	}
 	
-	@GetMapping("/clientQuestion ")
-	public void  getlistClients()
-	{
-	 producerTemplate.requestBody("direct:patient", null,String.class);
-		}
-	
+	@GetMapping("/clientQuestion/{question}")
+	public void premiereQuestion(@PathVariable String question) throws Exception {
+		CamelContext context = new DefaultCamelContext();
+		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
+		connectionFactory.createConnection("admin", "adaming2022");
+		context.addComponent("jms", JmsComponent.jmsComponentAutoAcknowledge(connectionFactory));
+		context.addRoutes(new PatientRouter());
+		context.start();
+		producerTemplate.sendBody("jms:queue:JT_ReponseMedecin", question);
+		System.out.println("On a bien envoyé la question " + question + " au médecin.");
+		context.stop();
+		
+
+//		producerTemplate.requestBody("direct:patient", null, String.class);
+	}
+
 }
