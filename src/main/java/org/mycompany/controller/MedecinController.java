@@ -51,7 +51,7 @@ public class MedecinController {
 				Medecin.setNom(medecin.getNom());
 				Medecin.setPrenom(medecin.getPrenom());
 				Medecin.setRole(medecin.getRole());
-				Medecin.setRdv(medecin.getRdv());
+				Medecin.setListeRdv(medecin.getListeRdv());
 				Medecin.setOrdonances(medecin.getOrdonances());
 				Medecin.setListePatients(medecin.getListePatients());
 				return iMedecinRepository.save(Medecin);
