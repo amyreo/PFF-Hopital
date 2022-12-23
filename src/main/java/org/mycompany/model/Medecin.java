@@ -35,9 +35,9 @@ public class Medecin {
 	@JoinTable(name = "T_Patient_Medecin_Associations", joinColumns = @JoinColumn(name = "idPatient"), inverseJoinColumns = @JoinColumn(name = "idMedecin"))
 	private List<Patient> listePatients;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "idRDV")
-	private RDV rdv;
+	private List<RDV> listeRdv;
 
 	public Medecin() {
 		super();
@@ -52,7 +52,7 @@ public class Medecin {
 	}
 
 	public Medecin(int idMede, String nom, String prenom, String role, List<Ordonance> ordonances,
-			List<Patient> listePatients, RDV rdv) {
+			List<Patient> listePatients, List<RDV> listeRdv) {
 		super();
 		this.idMede = idMede;
 		this.nom = nom;
@@ -60,7 +60,7 @@ public class Medecin {
 		this.role = role;
 		this.ordonances = ordonances;
 		this.listePatients = listePatients;
-		this.rdv = rdv;
+		this.listeRdv = listeRdv;
 	}
 
 	public int getIdMede() {
@@ -111,18 +111,18 @@ public class Medecin {
 		this.listePatients = listePatients;
 	}
 
-	public RDV getRdv() {
-		return rdv;
+	public List<RDV> getListeRdv() {
+		return listeRdv;
 	}
 
-	public void setRdv(RDV rdv) {
-		this.rdv = rdv;
+	public void setListeRdv(List<RDV> listeRdv) {
+		this.listeRdv = listeRdv;
 	}
 
 	@Override
 	public String toString() {
 		return "Medecin [idMede=" + idMede + ", nom=" + nom + ", prenom=" + prenom + ", role=" + role + ", ordonances="
-				+ ordonances + ", listePatients=" + listePatients + ", rdv=" + rdv + "]";
+				+ ordonances + ", listePatients=" + listePatients + ", rdv=" + listeRdv + "]";
 	}
 
 }

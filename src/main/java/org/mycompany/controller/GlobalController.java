@@ -1,5 +1,6 @@
 package org.mycompany.controller;
 
+import java.util.List;
 import java.util.Scanner;
 
 import org.mycompany.model.Chambre;
@@ -7,11 +8,13 @@ import org.mycompany.model.Facture;
 import org.mycompany.model.Medecin;
 import org.mycompany.model.Ordonance;
 import org.mycompany.model.Patient;
+import org.mycompany.model.RDV;
 import org.mycompany.repo.IChambreRepository;
 import org.mycompany.repo.IFactureRepository;
 import org.mycompany.repo.IMedecinRepository;
 import org.mycompany.repo.IOrdonanceRepository;
 import org.mycompany.repo.IPatientRepository;
+import org.mycompany.repo.IRDVRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +32,8 @@ public class GlobalController {
 	IOrdonanceRepository ior;
 	@Autowired
 	IChambreRepository icr;
+	@Autowired
+	IRDVRepository irr;
 
 	public Scanner scan = new Scanner(System.in);
 
@@ -48,7 +53,8 @@ public class GlobalController {
 			System.err.println(
 					"Tapez 17 pour ajouter une ordonnance, 18 pour lister toutes les ordonnances, 19 pour voir une ordonnance en particulier, 20 pour supprimer une ordonnance.");
 			System.out.println("Tapez 21 pour planifier un RDV, 22 pour consulter le planning des RDV.");
-			System.err.println("Pour ajouter un objet en tant qu'attribut d'une autre objet, veuillez d'abord créer les deux objets séparément.");
+			System.err.println(
+					"Pour ajouter un objet en tant qu'attribut d'une autre objet, veuillez d'abord créer les deux objets séparément.");
 			choice = scan.nextInt();
 			switch (choice) {
 			case 1:
@@ -185,8 +191,52 @@ public class GlobalController {
 				System.err.println("localhost:8080/deleteOrdonance/" + id11);
 				break;
 			case 21:
+				System.out.println("Quel est l'identifiant du RDV à créer ?");
+				int idrdv = scan.nextInt();
+				System.out.println("Pour quelle maladie prenez-vous RDV ?");
+				String maladie = scan.next();
+				System.out.println("Pour quelle heure prenez-vous RDV ? Ecrivez l'heure au format 'HH:MM' svp.");
+				String heure = scan.next();
+				System.out.println("Quel sera le montant de la consultation ?");
+				double montantC = scan.nextDouble();
+				System.out.println("Quel est votre identifiant de patient ?");
+				int idP = scan.nextInt();
+				System.out.println("Quel est l'identifiant du médecin en charge ?");
+				int idM = scan.nextInt();
+				System.out.println("Le rendez-vous sera t-il une chirurgie ? Répondez true ou false");
+				boolean chirurgie = scan.nextBoolean();
+
+				Patient patient2 = ipr.findById(idP).get();
+				Medecin medC = imr.findById(idM).get();
+				boolean dispo = true;
+				if (medC.getListeRdv().size() >= 1) {
+					List<RDV> listeR = medC.getListeRdv();
+					for (RDV rdv : listeR) {
+						if (rdv.getHeureDebut() == heure) {
+							dispo = false;
+						}
+					}
+				}
+				if (dispo) {
+					Facture facture = new Facture(idrdv, montantC);
+					RDV rdv = new RDV(idrdv, heure, maladie, facture, medC, patient2, chirurgie);
+					facture.setRdv(rdv);
+					ifr.save(facture);
+					irr.save(rdv);
+				} else {
+					System.out.println(
+							"Le médecin n'est pas disponible à cette heure-ci, veuillez recommencer le processus de prise de RDV.");
+				}
+
 				break;
 			case 22:
+				System.out.println("Voici la liste des RDV qui sont déjà programmés : ");
+				List<RDV> listeRDV = irr.findAll();
+				for (RDV rdv : listeRDV) {
+					System.out.println("Patient numéro {" + rdv.getPatient().getId() + "} avec médecin numéro {"
+							+ rdv.getMedecin().getIdMede() + "}");
+					System.out.println("Heure du rdv : {" + rdv.getHeureDebut() + "}.");
+				}
 				break;
 
 			default:
