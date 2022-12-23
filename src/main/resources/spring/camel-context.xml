@@ -1,57 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring       https://camel.apache.org/schema/spring/camel-spring-2.23.3.xsd">
-    <bean class="org.mycompany.Processor.ProcessorScanPatientOuMed" id="ProcessorScanPatientOM"/>
     <bean class="org.mycompany.Processor.ProcessorScanPatient" id="ProcessorScanPatient"/>
     <bean
         class="org.mycompany.Processor.ProcessorScanPatientNouveauMessage" id="choixnouveauxmessage"/>
     <bean class="org.mycompany.Processor.ProcessorScanmedecinReponse" id="reponsemedecin"/>
-    <bean class="org.mycompany.Processor.ProcessorRoutePatient" id="attendreponse"/>
     <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
-        <route id="_patientEnvoie">
-            <from id="_from1" uri="direct:patient"/>
-            <process id="_process1" ref="ProcessorScanPatientOM"/>
-            <!--            <to id="_toretour" uri="jms:queue:JT_Patient"/>-->
-            <!--            <process id="onattendlareponse" ref="attendreponse"/>-->
-            <choice id="_choixmedoupat">
-                <when id="direction medecin">
-                    <simple>"${body} == 'medecin'"</simple>
-                    <log id="_log1" message="Vous est donc un ${body} geniale"/>
-                    <to id="_toPatient" uri="direct:medecin"/>
-                </when>
-                <otherwise id="_directionpatient">
-                    <log id="_log" message="Bonjour mr.mme ${body} "/>
-                    <to id="_toCient" uri="direct:Client"/>
-                </otherwise>
-            </choice>
-        </route>
-        <route id="_cote_patient">
-            <from id="_topatient" uri="direct:client"/>
-            <process id="_questionpatient" ref="ProcessorScanPatient"/>
-            <log id="_votrequestion" message="votre question est ${body}"/>
-            <!--            <to id="_tojmsQuestionPatient" uri="jms:queue:JT_questionPatient"/>-->
-            <to id="_toRetourClient" uri="direct:RetourClient"/>
-        </route>
-        <route id="_cote_medecin">
-            <from id="_to3" uri="direct:medecin"/>
-            <process id="_process2" ref="reponsemedecin"/>
-            <to id="_from3" uri="jms:queue:JT_questionPatient"/>
-            <log id="_log2" message="la reponse est  ${body}"/>
+        <route id="_route1">
+            <from id="entryPoint" uri="jms:queue:JT_Patient"/>
+            <log id="_log2" message="Nouveau message pour le patient : ${body}"/>
+            <process id="ProcessorScanPatientNouveauxMesage" ref="ProcessorScanPatient"/>
             <to id="_to5" uri="jms:queue:JT_ReponseMedecin"/>
+            <log id="_log3" message="Message envoyé chez le médecin avec succès ! Le message était : ${body}"/>
         </route>
-        <route id="_retourCotePatient">
-            <from id="_to4" uri="direct:RetourClient"/>
-            <log id="_log5" message="la reponse est  ${body}"/>
-            <process id="ProcessorScanPatientNouveauxMesage" ref="choixnouveauxmessage"/>
-            <choice id="_choice2">
-                <when id="new message ?">
-                    <simple>"${body} == 'o'"</simple>
-                    <to id="_to1" uri="direct:patient"/>
-                </when>
-                <otherwise id="_otherwise2">
-                    <to id="_to2" uri="direct:fin"/>
-                </otherwise>
-            </choice>
-        </route>
+        <!--        <route id="_patientEnvoie">-->
+        <!--            <from id="_from1" uri="direct:patient"/>-->
+        <!--            <process id="_process1" ref="ProcessorScanPatient"/>-->
+        <!--            <log id="_log1" message="la question est ${body}"/>-->
+        <!--            <to id="_toretour" uri="jms:topic:JT_Patient"/>-->
+        <!--        </route>-->
+        <!--        <route id="_cote_medecin">-->
+        <!--            <from id="_to3" uri="jms:topic:JT_Patient"/>-->
+        <!--            <process id="_process2" ref="reponsemedecin"/>-->
+        <!--            <log id="_log2" message="la reponse est  ${body}"/>-->
+        <!--            <to id="_to5" uri="jms:topic:JT_ReponseMedecin"/>-->
+        <!--        </route>-->
+        <!--        <route id="_retourCotePatient">-->
+        <!--            <from id="_to4" uri="jms:topic:JT_ReponseMedecin"/>-->
+        <!--            <log id="_log5" message="la reponse est  ${body}"/>-->
+        <!--            <process id="ProcessorScanPatientNouveauxMesage" ref="choixnouveauxmessage"/>-->
+        <!--            <choice id="_choice2">-->
+        <!--                <when id="new message ?">-->
+        <!--                    <constant>body.equalsIgnoreCase("o")</constant>-->
+        <!--                    <to id="_to1" uri="direct:patient"/>-->
+        <!--                </when>-->
+        <!--                <otherwise id="_otherwise2">-->
+        <!--                    <to id="_to2" uri="direct:fin"/>-->
+        <!--                </otherwise>-->
+        <!--            </choice>-->
+        <!--        </route>-->
     </camelContext>
 </beans>

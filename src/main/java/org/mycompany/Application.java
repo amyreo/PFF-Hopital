@@ -38,14 +38,15 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @ImportResource({"classpath:spring/camel-context.xml"})
 public class Application {
-	private static String url = "tcp://194.206.91.85:61616";
+//	private static String url = "tcp://194.206.91.85:61616";
     // must have a main method spring-boot can run
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Application.class, args);
-        CamelContext context = new DefaultCamelContext();
-        ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
-		connectionFactory.createConnection("admin", "adaming2022");
-		context.addComponent("jms", JmsComponent.jmsComponentAutoAcknowledge(connectionFactory));
+//        CamelContext context = new DefaultCamelContext();
+//        ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
+//		connectionFactory.createConnection("admin", "adaming2022");
+//		context.addComponent("jms", JmsComponent.jmsComponentAutoAcknowledge(connectionFactory));
+//		System.out.println("On est bien connectés au broker activeMQ");
 		
     }
 
