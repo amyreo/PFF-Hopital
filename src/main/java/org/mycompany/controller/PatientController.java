@@ -69,7 +69,7 @@ public class PatientController {
 			return ipr.save(newPatient);
 		});
 	}
-
+	
 	@GetMapping("/clientQuestion/{question}")
 	public void premiereQuestion(@PathVariable String question) throws Exception {
 		CamelContext context = new DefaultCamelContext();

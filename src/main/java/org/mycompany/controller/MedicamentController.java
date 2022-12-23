@@ -45,7 +45,7 @@ public class MedicamentController {
 
 	  @PutMapping("/updateMedicament/{id}")
 			public Medicament updateMedicament(@RequestBody Medicament medicament, @PathVariable int id) {
-				return iMedicamentRepository.findById(id).map(Medicament -> {
+		  return iMedicamentRepository.findById(id).map(Medicament -> {
 					Medicament.setIdMedi(medicament.getIdMedi());
 					Medicament.setNom (medicament.getNom());
 					Medicament.setDescription(medicament.getDescription());
@@ -56,5 +56,31 @@ public class MedicamentController {
 					return iMedicamentRepository.save(medicament);
 				});
 			}
+	  
+	  
+	  
+	  @PutMapping("/updateStockMedicament/{id}/{StockEnlever}")
+		public Medicament updateStockMedicament(@PathVariable int id,@PathVariable int StockEnlever) {
+		  if ((iMedicamentRepository.findById(id).get().getStock()- StockEnlever)>=0) {
+		  return iMedicamentRepository.findById(id).map(Medicament -> {
+			  	Medicament.setIdMedi(id);
+			  	Medicament.setNom (iMedicamentRepository.getById(id).getNom());
+			  	Medicament.setDescription(iMedicamentRepository.getById(id).getDescription());
+				Medicament.setStock(iMedicamentRepository.getById(id).getStock( ) + StockEnlever);
+				Medicament.setOrdonances(iMedicamentRepository.getById(id).getOrdonances());
+				return iMedicamentRepository.save(Medicament);
+			}).orElseGet(() -> {
+				return null;
+			});
+		}else {
+			System.out.println("stock insufisant");
+			return iMedicamentRepository.getById(id);
+		}
+		 
+	  }
+		 
+	  
+	  
+	  
 
 }
