@@ -9,7 +9,10 @@ Notes pour utilisation des modules :
     - Remplacer si besoin le token webhook dans le projet Github
     - Démarrer le service Jenkins et aller à localhost:8081 (ou :8090 ou autre selon la config)
     - Profit
-
+- WSO2 + SOAP : 
+    - Démarrer Enterprise Integrator et aller à l'URL (un truc qui ressemble à https://192.168.20.60:9443/carbon/)
+    - Lancer le projet en local
+    - Aller tester sur l'url la file en question (WSTruc de mémoire)
 
 # Spring Boot Camel XML QuickStart
 
